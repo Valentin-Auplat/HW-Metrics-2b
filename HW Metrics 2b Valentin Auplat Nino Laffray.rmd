@@ -1,0 +1,28 @@
+---
+title: "Homework Metrics 2b: Federal Reserve's interest rates and global outstanding credit. A univariate and multivariates analysis"
+author: "Valentin Auplat, Nino Laffray"
+date: "May 2025"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+```{r}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+library(haven)
+library(dplyr)
+library(knitr)
+library(tidyr)
+library(ggplot2)
+library(stargazer)
+library(Synth)
+library(foreign)
+library(knitr)
+```

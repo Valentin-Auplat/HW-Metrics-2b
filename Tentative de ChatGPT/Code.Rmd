@@ -1,0 +1,184 @@
+---
+title: 'Time Series Homework: Univariate & Multivariate Analysis'
+author: "Your Names"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+  html_document:
+    toc: yes
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, warning = FALSE, message = FALSE,
+  fig.width = 7, fig.height = 4
+)
+# Load libraries
+library(quantmod)     # data retrieval
+library(tseries)      # unit-root tests
+library(urca)         # KPSS, ADF
+library(forecast)     # ARIMA & forecasting
+library(vars)         # VAR modeling
+library(ggplot2)      # plotting
+library(gridExtra)    # arranging multiple plots
+```
+
+# Data Retrieval and Preparation
+
+```{r data}
+# Download from FRED
+getSymbols(c("GDPC1","UNRATE"), src = "FRED", from = "1950-01-01")
+
+# TS objects: quarterly GDP, monthly unemployment
+gdp     <- ts(as.numeric(GDPC1), start = c(1947,1), frequency = 4)
+unemp   <- ts(as.numeric(UNRATE), start = c(1948,1), frequency = 12)
+
+# Convert monthly to quarterly average
+unemp_q <- aggregate(unemp, nfrequency = 4, FUN = mean)
+
+# Restrict to 1950Q1 onward
+gdp_q   <- window(gdp,   start = c(1950,1))
+unemp_q <- window(unemp_q, start = c(1950,1))
+```
+
+# Exercise 1: Univariate Analysis
+
+## 1. Plot in Levels
+
+```{r plots-levels}
+gdp_plot   <- autoplot(gdp_q)   + ggtitle("Real GDP (GDPC1), 1950Q1–2024Q1")
+unemp_plot <- autoplot(unemp_q) + ggtitle("Unemployment Rate (UNRATE), 1950Q1–2024Q1")
+grid.arrange(gdp_plot, unemp_plot, ncol = 1)
+```
+
+## 2. Unit-Root and Stationarity Tests
+
+```{r unit-root}
+# GDP: ADF & KPSS
+gdp_adf  <- ur.df(gdp_q,  type = "drift", selectlags = "AIC")
+summary(gdp_adf)
+
+gdp_kpss <- ur.kpss(gdp_q, type = "mu")
+summary(gdp_kpss)
+
+# Unemployment: ADF & KPSS
+un_adf   <- ur.df(unemp_q, type = "drift", selectlags = "AIC")
+summary(un_adf)
+
+un_kpss  <- ur.kpss(unemp_q, type = "mu")
+summary(un_kpss)
+```
+
+## 3. AR(p)/ARMA(p,q) Identification & Selection
+
+```{r acf-pacf}
+# Difference GDP
+dgdp <- diff(gdp_q)
+
+# ACF/PACF plots
+p_acf_dgdp <- autoplot(Acf(dgdp,  lag.max = 20)) + ggtitle("ACF of ∆GDP")
+p_pacf_dgdp <- autoplot(Pacf(dgdp, lag.max = 20)) + ggtitle("PACF of ∆GDP")
+p_acf_un   <- autoplot(Acf(unemp_q, lag.max = 20)) + ggtitle("ACF of UNRATE")
+p_pacf_un  <- autoplot(Pacf(unemp_q, lag.max = 20)) + ggtitle("PACF of UNRATE")
+grid.arrange(p_acf_dgdp, p_pacf_dgdp, p_acf_un, p_pacf_un, ncol = 2)
+```
+
+```{r fit-arima}
+# Fit ARIMA models for GDP using ML to avoid CSS AR non-stationarity error
+fit_g1 <- Arima(gdp_q, order = c(1,1,0), method = "ML")
+fit_g2 <- Arima(gdp_q, order = c(1,1,1), method = "ML")
+fit_g3 <- Arima(gdp_q, order = c(2,1,0), method = "ML")
+
+# Compare information criteria
+AIC(fit_g1, fit_g2, fit_g3)
+BIC(fit_g1, fit_g2, fit_g3)
+
+# Fit ARMA models for unemployment (stationary in levels)
+fit_u1 <- Arima(unemp_q, order = c(1,0,0), method = "ML")
+fit_u2 <- Arima(unemp_q, order = c(1,0,1), method = "ML")
+AIC(fit_u1, fit_u2)
+BIC(fit_u1, fit_u2)
+```
+
+## 4. Forecasts for UNRATE
+
+```{r forecast-unemp}
+# Train/Test split
+train_u     <- window(unemp_q, end = c(2022,4))
+test_u      <- window(unemp_q, start = c(2023,1))
+fit_train_u <- Arima(train_u, order = c(1,0,0), method = "ML")
+
+# Forecast
+fc_u <- forecast(fit_train_u, h = length(test_u))
+autoplot(fit_train_u) +
+  autolayer(fc_u, series = "Forecast", PI = TRUE) +
+  autolayer(test_u, series = "Actual") +
+  ggtitle("UNRATE: In-Sample & Out-of-Sample Forecasts")
+```
+
+# Exercise 2: Multivariate (VAR) Analysis
+
+## 1. Lag-Length Selection
+
+```{r var-select}
+# Align both series on common time window via ts.intersect
+ts_data    <- ts.intersect(dgdp, unemp_q)
+colnames(ts_data) <- c("dGDP","UNR")
+# ts_data runs from max(start(dgdp), start(unemp_q)) with no NAs
+VARselect(ts_data, lag.max = 8, type = "const")
+```
+
+## 2. Estimate VAR(2) & Diagnostics
+
+```{r var-est}
+var2 <- VAR(ts_data, p = 2, type = "const")
+summary(var2)
+serial.test(var2, lags.pt = 16, type = "PT.adjusted")
+arch.test(var2, lags.multi = 5)
+normality.test(var2)
+```
+
+## 3. Forecast ∆GDP
+
+```{r var-forecast}
+n_ahead <- 8
+fc_var  <- predict(var2, n.ahead = n_ahead, ci = 0.95)
+plot(fc_var, names = "dGDP")
+```
+
+## 4–5. Cholesky Ordering & Orthogonalized IRFs
+
+```{r irf-orth}
+irf_o <- irf(
+  var2,
+  impulse  = "dGDP",
+  response = c("dGDP","UNR"),
+  n.ahead  = 20,
+  ortho    = TRUE,
+  boot     = TRUE
+)
+plot(irf_o)
+```
+
+## 6. Reverse Ordering & Comparison
+
+```{r irf-reverse}
+# Align and swap ordering
+ts_data_rev <- ts.intersect(unemp_q, dgdp)
+colnames(ts_data_rev) <- c("UNR","dGDP")
+var_rev <- VAR(ts_data_rev, p = 2, type = "const")
+irf_rev <- irf(
+  var_rev,
+  impulse  = "UNR",
+  response = c("UNR","dGDP"),
+  n.ahead  = 20,
+  ortho    = TRUE,
+  boot     = TRUE
+)
+plot(irf_rev)
+```
+
+**End of Document**

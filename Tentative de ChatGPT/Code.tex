@@ -1,0 +1,661 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Time Series Homework: Univariate \& Multivariate Analysis},
+  pdfauthor={Your Names},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Time Series Homework: Univariate \& Multivariate Analysis}
+\author{Your Names}
+\date{2025-04-24}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{data-retrieval-and-preparation}{%
+\section{Data Retrieval and
+Preparation}\label{data-retrieval-and-preparation}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Download from FRED}
+\FunctionTok{getSymbols}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"GDPC1"}\NormalTok{,}\StringTok{"UNRATE"}\NormalTok{), }\AttributeTok{src =} \StringTok{"FRED"}\NormalTok{, }\AttributeTok{from =} \StringTok{"1950{-}01{-}01"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "GDPC1"  "UNRATE"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# TS objects: quarterly GDP, monthly unemployment}
+\NormalTok{gdp     }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(GDPC1), }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{1947}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{4}\NormalTok{)}
+\NormalTok{unemp   }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(UNRATE), }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{1948}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{)}
+
+\CommentTok{\# Convert monthly to quarterly average}
+\NormalTok{unemp\_q }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(unemp, }\AttributeTok{nfrequency =} \DecValTok{4}\NormalTok{, }\AttributeTok{FUN =}\NormalTok{ mean)}
+
+\CommentTok{\# Restrict to 1950Q1 onward}
+\NormalTok{gdp\_q   }\OtherTok{\textless{}{-}} \FunctionTok{window}\NormalTok{(gdp,   }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{1950}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\NormalTok{unemp\_q }\OtherTok{\textless{}{-}} \FunctionTok{window}\NormalTok{(unemp\_q, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{1950}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{exercise-1-univariate-analysis}{%
+\section{Exercise 1: Univariate
+Analysis}\label{exercise-1-univariate-analysis}}
+
+\hypertarget{plot-in-levels}{%
+\subsection{1. Plot in Levels}\label{plot-in-levels}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gdp\_plot   }\OtherTok{\textless{}{-}} \FunctionTok{autoplot}\NormalTok{(gdp\_q)   }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Real GDP (GDPC1), 1950Q1–2024Q1"}\NormalTok{)}
+\NormalTok{unemp\_plot }\OtherTok{\textless{}{-}} \FunctionTok{autoplot}\NormalTok{(unemp\_q) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Unemployment Rate (UNRATE), 1950Q1–2024Q1"}\NormalTok{)}
+\FunctionTok{grid.arrange}\NormalTok{(gdp\_plot, unemp\_plot, }\AttributeTok{ncol =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Code_files/figure-latex/plots-levels-1.pdf}
+
+\hypertarget{unit-root-and-stationarity-tests}{%
+\subsection{2. Unit-Root and Stationarity
+Tests}\label{unit-root-and-stationarity-tests}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# GDP: ADF \& KPSS}
+\NormalTok{gdp\_adf  }\OtherTok{\textless{}{-}} \FunctionTok{ur.df}\NormalTok{(gdp\_q,  }\AttributeTok{type =} \StringTok{"drift"}\NormalTok{, }\AttributeTok{selectlags =} \StringTok{"AIC"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(gdp\_adf)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ############################################### 
+## # Augmented Dickey-Fuller Test Unit Root Test # 
+## ############################################### 
+## 
+## Test regression drift 
+## 
+## 
+## Call:
+## lm(formula = z.diff ~ z.lag.1 + 1 + z.diff.lag)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1816.49   -34.15     5.86    47.43  1117.90 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 25.622333  18.668595   1.372 0.171000    
+## z.lag.1      0.005320   0.001544   3.447 0.000654 ***
+## z.diff.lag  -0.151086   0.059054  -2.558 0.011035 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 153.1 on 283 degrees of freedom
+## Multiple R-squared:  0.05206,    Adjusted R-squared:  0.04537 
+## F-statistic: 7.772 on 2 and 283 DF,  p-value: 0.0005178
+## 
+## 
+## Value of test-statistic is: 3.4467 38.2646 
+## 
+## Critical values for test statistics: 
+##       1pct  5pct 10pct
+## tau2 -3.44 -2.87 -2.57
+## phi1  6.47  4.61  3.79
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gdp\_kpss }\OtherTok{\textless{}{-}} \FunctionTok{ur.kpss}\NormalTok{(gdp\_q, }\AttributeTok{type =} \StringTok{"mu"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(gdp\_kpss)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ####################### 
+## # KPSS Unit Root Test # 
+## ####################### 
+## 
+## Test is of type: mu with 5 lags. 
+## 
+## Value of test-statistic is: 4.812 
+## 
+## Critical value for a significance level of: 
+##                 10pct  5pct 2.5pct  1pct
+## critical values 0.347 0.463  0.574 0.739
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Unemployment: ADF \& KPSS}
+\NormalTok{un\_adf   }\OtherTok{\textless{}{-}} \FunctionTok{ur.df}\NormalTok{(unemp\_q, }\AttributeTok{type =} \StringTok{"drift"}\NormalTok{, }\AttributeTok{selectlags =} \StringTok{"AIC"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(un\_adf)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ############################################### 
+## # Augmented Dickey-Fuller Test Unit Root Test # 
+## ############################################### 
+## 
+## Test regression drift 
+## 
+## 
+## Call:
+## lm(formula = z.diff ~ z.lag.1 + 1 + z.diff.lag)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.7980 -0.2218 -0.0994  0.1225  8.9807 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  0.53008    0.14590   3.633 0.000331 ***
+## z.lag.1     -0.09147    0.02437  -3.753 0.000211 ***
+## z.diff.lag   0.02804    0.05872   0.478 0.633320    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.69 on 288 degrees of freedom
+## Multiple R-squared:  0.04688,    Adjusted R-squared:  0.04026 
+## F-statistic: 7.083 on 2 and 288 DF,  p-value: 0.0009933
+## 
+## 
+## Value of test-statistic is: -3.7532 7.0482 
+## 
+## Critical values for test statistics: 
+##       1pct  5pct 10pct
+## tau2 -3.44 -2.87 -2.57
+## phi1  6.47  4.61  3.79
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{un\_kpss  }\OtherTok{\textless{}{-}} \FunctionTok{ur.kpss}\NormalTok{(unemp\_q, }\AttributeTok{type =} \StringTok{"mu"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(un\_kpss)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ####################### 
+## # KPSS Unit Root Test # 
+## ####################### 
+## 
+## Test is of type: mu with 5 lags. 
+## 
+## Value of test-statistic is: 0.338 
+## 
+## Critical value for a significance level of: 
+##                 10pct  5pct 2.5pct  1pct
+## critical values 0.347 0.463  0.574 0.739
+\end{verbatim}
+
+\hypertarget{arparmapq-identification-selection}{%
+\subsection{3. AR(p)/ARMA(p,q) Identification \&
+Selection}\label{arparmapq-identification-selection}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Difference GDP}
+\NormalTok{dgdp }\OtherTok{\textless{}{-}} \FunctionTok{diff}\NormalTok{(gdp\_q)}
+
+\CommentTok{\# ACF/PACF plots}
+\NormalTok{p\_acf\_dgdp }\OtherTok{\textless{}{-}} \FunctionTok{autoplot}\NormalTok{(}\FunctionTok{Acf}\NormalTok{(dgdp,  }\AttributeTok{lag.max =} \DecValTok{20}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"ACF of ∆GDP"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Code_files/figure-latex/acf-pacf-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p\_pacf\_dgdp }\OtherTok{\textless{}{-}} \FunctionTok{autoplot}\NormalTok{(}\FunctionTok{Pacf}\NormalTok{(dgdp, }\AttributeTok{lag.max =} \DecValTok{20}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"PACF of ∆GDP"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Code_files/figure-latex/acf-pacf-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p\_acf\_un   }\OtherTok{\textless{}{-}} \FunctionTok{autoplot}\NormalTok{(}\FunctionTok{Acf}\NormalTok{(unemp\_q, }\AttributeTok{lag.max =} \DecValTok{20}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"ACF of UNRATE"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Code_files/figure-latex/acf-pacf-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p\_pacf\_un  }\OtherTok{\textless{}{-}} \FunctionTok{autoplot}\NormalTok{(}\FunctionTok{Pacf}\NormalTok{(unemp\_q, }\AttributeTok{lag.max =} \DecValTok{20}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"PACF of UNRATE"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Code_files/figure-latex/acf-pacf-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{grid.arrange}\NormalTok{(p\_acf\_dgdp, p\_pacf\_dgdp, p\_acf\_un, p\_pacf\_un, }\AttributeTok{ncol =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Code_files/figure-latex/acf-pacf-5.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Fit ARIMA models for GDP using ML to avoid CSS AR non{-}stationarity error}
+\NormalTok{fit\_g1 }\OtherTok{\textless{}{-}} \FunctionTok{Arima}\NormalTok{(gdp\_q, }\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{), }\AttributeTok{method =} \StringTok{"ML"}\NormalTok{)}
+\NormalTok{fit\_g2 }\OtherTok{\textless{}{-}} \FunctionTok{Arima}\NormalTok{(gdp\_q, }\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{method =} \StringTok{"ML"}\NormalTok{)}
+\NormalTok{fit\_g3 }\OtherTok{\textless{}{-}} \FunctionTok{Arima}\NormalTok{(gdp\_q, }\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{), }\AttributeTok{method =} \StringTok{"ML"}\NormalTok{)}
+
+\CommentTok{\# Compare information criteria}
+\FunctionTok{AIC}\NormalTok{(fit\_g1, fit\_g2, fit\_g3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        df      AIC
+## fit_g1  2 3770.819
+## fit_g2  3 3719.902
+## fit_g3  3 3764.447
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{BIC}\NormalTok{(fit\_g1, fit\_g2, fit\_g3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        df      BIC
+## fit_g1  2 3778.138
+## fit_g2  3 3730.881
+## fit_g3  3 3775.425
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Fit ARMA models for unemployment (stationary in levels)}
+\NormalTok{fit\_u1 }\OtherTok{\textless{}{-}} \FunctionTok{Arima}\NormalTok{(unemp\_q, }\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{), }\AttributeTok{method =} \StringTok{"ML"}\NormalTok{)}
+\NormalTok{fit\_u2 }\OtherTok{\textless{}{-}} \FunctionTok{Arima}\NormalTok{(unemp\_q, }\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{method =} \StringTok{"ML"}\NormalTok{)}
+\FunctionTok{AIC}\NormalTok{(fit\_u1, fit\_u2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        df      AIC
+## fit_u1  3 619.6685
+## fit_u2  4 621.4511
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{BIC}\NormalTok{(fit\_u1, fit\_u2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        df      BIC
+## fit_u1  3 630.7090
+## fit_u2  4 636.1718
+\end{verbatim}
+
+\hypertarget{forecasts-for-unrate}{%
+\subsection{4. Forecasts for UNRATE}\label{forecasts-for-unrate}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Train/Test split}
+\NormalTok{train\_u     }\OtherTok{\textless{}{-}} \FunctionTok{window}\NormalTok{(unemp\_q, }\AttributeTok{end =} \FunctionTok{c}\NormalTok{(}\DecValTok{2022}\NormalTok{,}\DecValTok{4}\NormalTok{))}
+\NormalTok{test\_u      }\OtherTok{\textless{}{-}} \FunctionTok{window}\NormalTok{(unemp\_q, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{2023}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\NormalTok{fit\_train\_u }\OtherTok{\textless{}{-}} \FunctionTok{Arima}\NormalTok{(train\_u, }\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{), }\AttributeTok{method =} \StringTok{"ML"}\NormalTok{)}
+
+\CommentTok{\# Forecast}
+\NormalTok{fc\_u }\OtherTok{\textless{}{-}} \FunctionTok{forecast}\NormalTok{(fit\_train\_u, }\AttributeTok{h =} \FunctionTok{length}\NormalTok{(test\_u))}
+\FunctionTok{autoplot}\NormalTok{(fit\_train\_u) }\SpecialCharTok{+}
+  \FunctionTok{autolayer}\NormalTok{(fc\_u, }\AttributeTok{series =} \StringTok{"Forecast"}\NormalTok{, }\AttributeTok{PI =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{autolayer}\NormalTok{(test\_u, }\AttributeTok{series =} \StringTok{"Actual"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"UNRATE: In{-}Sample \& Out{-}of{-}Sample Forecasts"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Code_files/figure-latex/forecast-unemp-1.pdf}
+
+\hypertarget{exercise-2-multivariate-var-analysis}{%
+\section{Exercise 2: Multivariate (VAR)
+Analysis}\label{exercise-2-multivariate-var-analysis}}
+
+\hypertarget{lag-length-selection}{%
+\subsection{1. Lag-Length Selection}\label{lag-length-selection}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Align both series on common time window via ts.intersect}
+\NormalTok{ts\_data    }\OtherTok{\textless{}{-}} \FunctionTok{ts.intersect}\NormalTok{(dgdp, unemp\_q)}
+\FunctionTok{colnames}\NormalTok{(ts\_data) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"dGDP"}\NormalTok{,}\StringTok{"UNR"}\NormalTok{)}
+\CommentTok{\# ts\_data runs from max(start(dgdp), start(unemp\_q)) with no NAs}
+\FunctionTok{VARselect}\NormalTok{(ts\_data, }\AttributeTok{lag.max =} \DecValTok{8}\NormalTok{, }\AttributeTok{type =} \StringTok{"const"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $selection
+## AIC(n)  HQ(n)  SC(n) FPE(n) 
+##      7      4      4      7 
+## 
+## $criteria
+##                   1            2            3           4           5
+## AIC(n)     9.408797     9.435527     9.351371    7.829751    7.835960
+## HQ(n)      9.440122     9.487736     9.424464    7.923729    7.950821
+## SC(n)      9.486887     9.565678     9.533582    8.064023    8.122292
+## FPE(n) 12195.206950 12525.655674 11514.836648 2514.416788 2530.168862
+##                  6           7           8
+## AIC(n)    7.825692    7.818331    7.823286
+## HQ(n)     7.961437    7.974960    8.000799
+## SC(n)     8.164084    8.208784    8.265799
+## FPE(n) 2504.455655 2486.270286 2498.855428
+\end{verbatim}
+
+\hypertarget{estimate-var2-diagnostics}{%
+\subsection{2. Estimate VAR(2) \&
+Diagnostics}\label{estimate-var2-diagnostics}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{var2 }\OtherTok{\textless{}{-}} \FunctionTok{VAR}\NormalTok{(ts\_data, }\AttributeTok{p =} \DecValTok{2}\NormalTok{, }\AttributeTok{type =} \StringTok{"const"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(var2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## VAR Estimation Results:
+## ========================= 
+## Endogenous variables: dGDP, UNR 
+## Deterministic variables: const 
+## Sample size: 285 
+## Log Likelihood: -2140.632 
+## Roots of the characteristic polynomial:
+## 0.9044 0.1505 0.1505 0.02604
+## Call:
+## VAR(y = ts_data, p = 2, type = "const")
+## 
+## 
+## Estimation results for equation dGDP: 
+## ===================================== 
+## dGDP = dGDP.l1 + UNR.l1 + dGDP.l2 + UNR.l2 + const 
+## 
+##         Estimate Std. Error t value Pr(>|t|)  
+## dGDP.l1 -0.12216    0.05990  -2.040   0.0423 *
+## UNR.l1   1.83634   13.38552   0.137   0.8910  
+## dGDP.l2 -0.02214    0.05997  -0.369   0.7122  
+## UNR.l2   7.14925   13.32087   0.537   0.5919  
+## const   30.73055   33.79617   0.909   0.3640  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## 
+## Residual standard error: 156.2 on 280 degrees of freedom
+## Multiple R-Squared: 0.02149, Adjusted R-squared: 0.007507 
+## F-statistic: 1.537 on 4 and 280 DF,  p-value: 0.1916 
+## 
+## 
+## Estimation results for equation UNR: 
+## ==================================== 
+## UNR = dGDP.l1 + UNR.l1 + dGDP.l2 + UNR.l2 + const 
+## 
+##           Estimate Std. Error t value Pr(>|t|)    
+## dGDP.l1  1.403e-04  2.680e-04   0.523 0.601043    
+## UNR.l1   9.340e-01  5.990e-02  15.593  < 2e-16 ***
+## dGDP.l2  1.234e-05  2.684e-04   0.046 0.963345    
+## UNR.l2  -2.807e-02  5.961e-02  -0.471 0.638107    
+## const    5.359e-01  1.512e-01   3.544 0.000462 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## 
+## Residual standard error: 0.6992 on 280 degrees of freedom
+## Multiple R-Squared: 0.8307,  Adjusted R-squared: 0.8283 
+## F-statistic: 343.5 on 4 and 280 DF,  p-value: < 2.2e-16 
+## 
+## 
+## 
+## Covariance matrix of residuals:
+##           dGDP    UNR
+## dGDP 24411.608 8.0735
+## UNR      8.073 0.4888
+## 
+## Correlation matrix of residuals:
+##         dGDP     UNR
+## dGDP 1.00000 0.07391
+## UNR  0.07391 1.00000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{serial.test}\NormalTok{(var2, }\AttributeTok{lags.pt =} \DecValTok{16}\NormalTok{, }\AttributeTok{type =} \StringTok{"PT.adjusted"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Portmanteau Test (adjusted)
+## 
+## data:  Residuals of VAR object var2
+## Chi-squared = 243.58, df = 56, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{arch.test}\NormalTok{(var2, }\AttributeTok{lags.multi =} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  ARCH (multivariate)
+## 
+## data:  Residuals of VAR object var2
+## Chi-squared = 603.65, df = 45, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{normality.test}\NormalTok{(var2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $JB
+## 
+##  JB-Test (multivariate)
+## 
+## data:  Residuals of VAR object var2
+## Chi-squared = 162506, df = 4, p-value < 2.2e-16
+## 
+## 
+## $Skewness
+## 
+##  Skewness only (multivariate)
+## 
+## data:  Residuals of VAR object var2
+## Chi-squared = 2751.7, df = 2, p-value < 2.2e-16
+## 
+## 
+## $Kurtosis
+## 
+##  Kurtosis only (multivariate)
+## 
+## data:  Residuals of VAR object var2
+## Chi-squared = 159754, df = 2, p-value < 2.2e-16
+\end{verbatim}
+
+\hypertarget{forecast-gdp}{%
+\subsection{3. Forecast ∆GDP}\label{forecast-gdp}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n\_ahead }\OtherTok{\textless{}{-}} \DecValTok{8}
+\NormalTok{fc\_var  }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(var2, }\AttributeTok{n.ahead =}\NormalTok{ n\_ahead, }\AttributeTok{ci =} \FloatTok{0.95}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(fc\_var, }\AttributeTok{names =} \StringTok{"dGDP"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Code_files/figure-latex/var-forecast-1.pdf}
+
+\hypertarget{cholesky-ordering-orthogonalized-irfs}{%
+\subsection{4--5. Cholesky Ordering \& Orthogonalized
+IRFs}\label{cholesky-ordering-orthogonalized-irfs}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{irf\_o }\OtherTok{\textless{}{-}} \FunctionTok{irf}\NormalTok{(}
+\NormalTok{  var2,}
+  \AttributeTok{impulse  =} \StringTok{"dGDP"}\NormalTok{,}
+  \AttributeTok{response =} \FunctionTok{c}\NormalTok{(}\StringTok{"dGDP"}\NormalTok{,}\StringTok{"UNR"}\NormalTok{),}
+  \AttributeTok{n.ahead  =} \DecValTok{20}\NormalTok{,}
+  \AttributeTok{ortho    =} \ConstantTok{TRUE}\NormalTok{,}
+  \AttributeTok{boot     =} \ConstantTok{TRUE}
+\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(irf\_o)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Code_files/figure-latex/irf-orth-1.pdf}
+
+\hypertarget{reverse-ordering-comparison}{%
+\subsection{6. Reverse Ordering \&
+Comparison}\label{reverse-ordering-comparison}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Align and swap ordering}
+\NormalTok{ts\_data\_rev }\OtherTok{\textless{}{-}} \FunctionTok{ts.intersect}\NormalTok{(unemp\_q, dgdp)}
+\FunctionTok{colnames}\NormalTok{(ts\_data\_rev) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"UNR"}\NormalTok{,}\StringTok{"dGDP"}\NormalTok{)}
+\NormalTok{var\_rev }\OtherTok{\textless{}{-}} \FunctionTok{VAR}\NormalTok{(ts\_data\_rev, }\AttributeTok{p =} \DecValTok{2}\NormalTok{, }\AttributeTok{type =} \StringTok{"const"}\NormalTok{)}
+\NormalTok{irf\_rev }\OtherTok{\textless{}{-}} \FunctionTok{irf}\NormalTok{(}
+\NormalTok{  var\_rev,}
+  \AttributeTok{impulse  =} \StringTok{"UNR"}\NormalTok{,}
+  \AttributeTok{response =} \FunctionTok{c}\NormalTok{(}\StringTok{"UNR"}\NormalTok{,}\StringTok{"dGDP"}\NormalTok{),}
+  \AttributeTok{n.ahead  =} \DecValTok{20}\NormalTok{,}
+  \AttributeTok{ortho    =} \ConstantTok{TRUE}\NormalTok{,}
+  \AttributeTok{boot     =} \ConstantTok{TRUE}
+\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(irf\_rev)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Code_files/figure-latex/irf-reverse-1.pdf}
+
+\textbf{End of Document}
+
+\end{document}
