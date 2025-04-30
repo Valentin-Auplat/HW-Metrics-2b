@@ -25,4 +25,64 @@ library(stargazer)
 library(Synth)
 library(foreign)
 library(knitr)
+library(readxl)
+library(purrr)
+```
+
+```{r}
+flatten_countries <- function(file_path) {
+  # Read the sheet and skip the header row
+  df <- read_excel(file_path, sheet = 3, skip = 1)
+
+  # Rename first column
+  colnames(df)[1] <- "Category"
+  df <- df[c(1:20),]
+  # Tag levels based on pattern rules
+  df <- df %>%
+    mutate(
+      Level0 = ifelse(grepl("Borrowers outside", Category), Category, NA),
+      Level1 = ifelse(grepl("^Of which:", Category), Category, NA),
+      Level2 = ifelse(grepl("^Africa and Middle East|^Emerging Asia and Pacific|^Emerging Europe|^Latin America", Category), Category, NA),
+      Level3 = ifelse(is.na(Level0) & is.na(Level1), Category, NA)
+    ) %>%
+    fill(Level0, Level1, Level2, .direction = "down") %>%
+    select(Level0, Level1, Level2, everything())  # Keep hierarchy + data
+  
+  return(df)
+}
+
+
+flatten_instruments <- function(file_path) {
+  dt <- read_excel(file_path, sheet = 3, skip = 1)
+  colnames(dt)[1] <- "Category"
+  dt <- dt[21:32, ]  # Adjust to the actual instrument section
+
+  dt <- dt %>%
+    mutate(
+      Level0 = ifelse(grepl("By instrument|Memo: Borrowers in United States", Category), Category, NA),
+      Level1 = ifelse(grepl("Borrowers outside United States|Of which: emerging market and developing economies|Non-financial borrowers", Category), Category, NA),
+      Level2 = ifelse(grepl("Bank loans|Debt securities issues|Of which: government|Of which: emerging market and developing economies", Category), Category, NA)) %>%
+    fill(Level0, Level1, Level2, .direction = "down") %>%
+    select(Level0, Level1, Level2 , everything())
+dt <- dt[-c(1,10),]
+  return(dt)
+}
+data <- flatten_instruments("2.xlsx")
+View(data)
+```
+
+```{r}
+merged_data_countries <- flatten_countries("2.xlsx")
+for (i in 3:34){
+  data <- flatten_countries(paste0(i, ".xlsx"))
+  merged_data_countries <- merge(merged_data_countries, data, by = c("Level0", "Level1", "Level2", "Level3", "Category"))
+}
+View(merged_data_countries)
+
+merged_data_instruments <- flatten_instruments("2.xlsx")
+for (i in 3:34){
+  data <- flatten_instruments(paste0(i, ".xlsx"))
+  merged_data_instruments <- merge(merged_data_instruments, data, by =  c("Level0", "Level1", "Level2", "Category"), all.x = TRUE)
+}
+View(merged_data_instruments)
 ```
