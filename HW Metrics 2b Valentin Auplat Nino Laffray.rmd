@@ -27,6 +27,9 @@ library(foreign)
 library(knitr)
 library(readxl)
 library(purrr)
+library(janitor)
+library(lubridate)
+library(tsibble)
 ```
 
 ```{r}
@@ -77,6 +80,11 @@ for (i in 3:34){
   data <- flatten_countries(paste0(i, ".xlsx"))
   merged_data_countries <- merge(merged_data_countries, data, by = c("Level0", "Level1", "Level2", "Level3", "Category"))
 }
+merged_data_countries <- merged_data_countries %>% 
+  clean_names() %>%
+  select(-matches("(_5|_6|_7)")) %>%
+  rename_with(~ sub("^x", "", .x)) %>%
+  rename_with(~ sub("(_2$|_3$|_4$)", "", .x))
 View(merged_data_countries)
 
 merged_data_instruments <- flatten_instruments("2.xlsx")
@@ -84,5 +92,13 @@ for (i in 3:34){
   data <- flatten_instruments(paste0(i, ".xlsx"))
   merged_data_instruments <- merge(merged_data_instruments, data, by =  c("Level0", "Level1", "Level2", "Category"), all.x = TRUE)
 }
+merged_data_instruments <- merged_data_instruments %>% 
+  clean_names() %>%
+  select(-matches("(_5|_6|_7)")) %>%
+  rename_with(~ sub("^x", "", .x)) %>%
+  rename_with(~ sub("(_2$|_3$|_4$)", "", .x))
 View(merged_data_instruments)
+
+FED <- read.csv("FEDFUNDS.csv")
+View(FED)
 ```
