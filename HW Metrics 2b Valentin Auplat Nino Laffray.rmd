@@ -99,6 +99,31 @@ merged_data_instruments <- merged_data_instruments %>%
   rename_with(~ sub("(_2$|_3$|_4$)", "", .x))
 View(merged_data_instruments)
 
+
+df_long <- merged_data_instruments %>%
+  select(-level0, -level1, -level2) %>%
+  pivot_longer(
+    cols = -category, # all columns except 'category'
+    names_to = "quarter",
+    values_to = "value"
+  ) %>%
+  arrange(category, quarter)
+View(df_long)
+
 FED <- read.csv("FEDFUNDS.csv")
+FED <- FED %>%
+  mutate(
+    observation_date = ymd(observation_date),
+    quarter = quarter(observation_date),
+    year = year(observation_date),
+    observation_date = paste0(year, "-q", quarter)
+  ) %>%
+  select(-year, -quarter)
+FED <- FED %>%
+  rename(value = FEDFUNDS) %>%
+  rename(quarter = observation_date) %>%
+  mutate(category = "FED_rate")
+
+df_long <- rbind(df_long, FED)
 View(FED)
 ```
