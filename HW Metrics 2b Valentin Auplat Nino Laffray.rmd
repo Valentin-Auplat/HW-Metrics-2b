@@ -32,7 +32,7 @@ library(lubridate)
 library(tsibble)
 ```
 
-```{r}
+```{r, echo = FALSE}
 flatten_countries <- function(file_path) {
   # Read the sheet and skip the header row
   df <- read_excel(file_path, sheet = 3, skip = 1)
@@ -71,10 +71,9 @@ dt <- dt[-c(1,10),]
   return(dt)
 }
 data <- flatten_instruments("2.xlsx")
-View(data)
 ```
 
-```{r}
+```{r, echo = FALSE}
 merged_data_countries <- flatten_countries("2.xlsx")
 for (i in 3:34){
   data <- flatten_countries(paste0(i, ".xlsx"))
@@ -85,7 +84,6 @@ merged_data_countries <- merged_data_countries %>%
   select(-matches("(_5|_6|_7)")) %>%
   rename_with(~ sub("^x", "", .x)) %>%
   rename_with(~ sub("(_2$|_3$|_4$)", "", .x))
-View(merged_data_countries)
 
 merged_data_instruments <- flatten_instruments("2.xlsx")
 for (i in 3:34){
@@ -97,18 +95,15 @@ merged_data_instruments <- merged_data_instruments %>%
   select(-matches("(_5|_6|_7)")) %>%
   rename_with(~ sub("^x", "", .x)) %>%
   rename_with(~ sub("(_2$|_3$|_4$)", "", .x))
-View(merged_data_instruments)
 
-
-df_long <- merged_data_instruments %>%
-  select(-level0, -level1, -level2) %>%
+df_long <- merged_data_countries %>%
+  select(-level0, -level1, -level2, -level3) %>%
   pivot_longer(
     cols = -category, # all columns except 'category'
     names_to = "quarter",
     values_to = "value"
   ) %>%
   arrange(category, quarter)
-View(df_long)
 
 FED <- read.csv("FEDFUNDS.csv")
 FED <- FED %>%
@@ -123,7 +118,36 @@ FED <- FED %>%
   rename(value = FEDFUNDS) %>%
   rename(quarter = observation_date) %>%
   mutate(category = "FED_rate")
+FED <- FED %>%
+    mutate(quarter = gsub("-", "_", FED$quarter))
 
-df_long <- rbind(df_long, FED)
-View(FED)
+df_long <- rbind(df_long, FED) %>%
+  filter(quarter >= "2000-q1") %>%
+  filter(quarter <= "2023-q4") %>%
+  pivot_wider(names_from = category, values_from = value)
+View(df_long)
+```
+
+```{r, echo = FALSE}
+df_long <- ts(df_long, start=c(2000, 1), frequency=4)
+plot(df_long[, "FED_rate"])
+plot(df_long[,c("Emerging Asia and Pacific", "Emerging Europe", "Latin America")], plot.type="s", col=c("red","green", "blue"))
+legend("topleft", legend=c("Emerging Asia and Pacific","Emerging Europe", "Latin America") ,col=c("red","green", "blue"), lty=1, bty="n") # add legend
+```
+```{r}
+library(urca)
+library(zoo)
+library(forecast)
+df_long <- ts(df_long, start=c(2000, 1), frequency=4)
+# 2.1 ADF Test (Augmented Dickey-Fuller)
+#adf_test <- ur.df(df_long, type = "trend", lags = 4)  # Try "drift" or "none" too
+#summary(adf_test)
+
+# 2.2 PP Test (Phillips-Perron)
+#pp_test <- ur.pp(df_long, type = "Z-tau", model = "trend", lags = "short")
+#summary(pp_test)
+
+# 2.3 KPSS Test (Stationarity)
+#kpss_test <- ur.kpss(df_long, type = "tau", lags = "short")
+#summary(kpss_test)
 ```
