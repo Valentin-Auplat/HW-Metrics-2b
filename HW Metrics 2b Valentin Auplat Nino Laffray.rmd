@@ -70,7 +70,7 @@ flatten_instruments <- function(file_path) {
 dt <- dt[-c(1,10),]
   return(dt)
 }
-data <- flatten_instruments("2.xlsx")
+#data <- flatten_instruments("2.xlsx")
 ```
 
 ```{r, echo = FALSE}
@@ -156,11 +156,45 @@ Idem.
 
 
 ```{r}
-# 2.2 PP Test (Phillips-Perron)
-pp_test <- ur.pp(df_long[,c("FED_rate")], type = "Z-tau", model = "trend", lags = "short")
-summary(pp_test)
-
 # 2.3 KPSS Test (Stationarity)
-kpss_test <- ur.kpss(df_long[,c("FED_rate")], type = "tau", lags = "short")
+kpss_test <- ur.kpss(df_long[,c("FED_rate")], type = "tau", lags = "long")
 summary(kpss_test)
+```
+
+```{r}
+# 2.3 KPSS Test (Stationarity)
+kpss_test <- ur.kpss(df_long[,c("Borrowers outside United States")], type = "tau", lags = "long")
+summary(kpss_test)
+```
+
+```{r}
+library(forecast)
+Acf(df_long[,c("FED_rate")], lag.max=20) # the MA part could be q=3, but a lot of non-null higher order lags
+Pacf(df_long[,c("FED_rate")], lag.max=20) # the AR part could be p=3 with the full sample
+ar3 <- Arima(df_long[,c("FED_rate")], order=c(2,0,0), include.constant=TRUE) # start with the AR part, assume integration order 0 (stationary)
+summary(ar3) # last lag and constant are significant
+plot(cbind(ar3$x, ar3$fitted), plot.type="s", col=c("black","red"), lty=1)
+legend("topright", legend=c("GDP (QoQ growth rate)","AR(3)") ,col=c("black","red"), lty=1, bty="n")
+
+
+ma3 <- Arima(df_long[,c("FED_rate")], order=c(0,0,3), include.constant=TRUE) # continue with the MA part
+summary(ma3) # last lag and the constant are significant.
+plot(cbind(ma3$x,ma3$fitted), plot.type="s", col=c("black","red"), lty=1)
+legend("topright", legend=c("GDP (QoQ growth rate)","MA(3)") ,col=c("black","red"), lty=1, bty="n")
+
+
+# Fit AR models
+ar1 <- Arima(df_long[,c("FED_rate")], order = c(1, 0, 0), include.constant = TRUE)
+ar2 <- Arima(df_long[,c("FED_rate")], order = c(2, 0, 0), include.constant = TRUE)
+ar3 <- Arima(df_long[,c("FED_rate")], order = c(3, 0, 0), include.constant = TRUE)
+
+# Create comparison table
+model_comparison <- data.frame(
+  Model = c("AR(1)", "AR(2)", "AR(3)"),
+  AIC = c(AIC(ar1), AIC(ar2), AIC(ar3)),
+  BIC = c(BIC(ar1), BIC(ar2), BIC(ar3)),
+  LogLikelihood = c(logLik(ar1), logLik(ar2), logLik(ar3))
+)
+
+print(model_comparison)
 ```
