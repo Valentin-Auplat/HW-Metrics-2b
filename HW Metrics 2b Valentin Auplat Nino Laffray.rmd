@@ -125,7 +125,6 @@ df_long <- rbind(df_long, FED) %>%
   filter(quarter >= "2000-q1") %>%
   filter(quarter <= "2023-q4") %>%
   pivot_wider(names_from = category, values_from = value)
-View(df_long)
 ```
 
 ```{r, echo = FALSE}
@@ -138,16 +137,30 @@ legend("topleft", legend=c("Emerging Asia and Pacific","Emerging Europe", "Latin
 library(urca)
 library(zoo)
 library(forecast)
-df_long <- ts(df_long, start=c(2000, 1), frequency=4)
+df_long <- ts(df_long, start=c(2000, 1), end=c(2020, 1), frequency=4)
 # 2.1 ADF Test (Augmented Dickey-Fuller)
-#adf_test <- ur.df(df_long, type = "trend", lags = 4)  # Try "drift" or "none" too
-#summary(adf_test)
+adf_test <- ur.df(df_long[,c("FED_rate")], type = "trend", lags = 2)  # Try "drift" or "none" too
+summary(adf_test)
+```
+Although the visual plot of the FED rate shows distinct level shifts and prolonged flat regimes (e.g., 2008–2016), the ADF test result shows that the process is stationary once we control for trend and include appropriate lags.
 
+This means the visual "non-stationarity" may be deterministic trend or policy-driven shifts, but not a stochastic unit root.
+
+
+```{r}
+# 2.1 ADF Test (Augmented Dickey-Fuller)
+adf_test <- ur.df(df_long[,c("Borrowers outside United States")], type = "trend", lags = 4)  # Try "drift" or "none" too
+summary(adf_test)
+```
+Idem.
+
+
+```{r}
 # 2.2 PP Test (Phillips-Perron)
-#pp_test <- ur.pp(df_long, type = "Z-tau", model = "trend", lags = "short")
-#summary(pp_test)
+pp_test <- ur.pp(df_long[,c("FED_rate")], type = "Z-tau", model = "trend", lags = "short")
+summary(pp_test)
 
 # 2.3 KPSS Test (Stationarity)
-#kpss_test <- ur.kpss(df_long, type = "tau", lags = "short")
-#summary(kpss_test)
+kpss_test <- ur.kpss(df_long[,c("FED_rate")], type = "tau", lags = "short")
+summary(kpss_test)
 ```
