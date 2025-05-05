@@ -1,0 +1,421 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Homework Metrics 2b: Federal Reserve's interest rates and global outstanding credit. A univariate and multivariates analysis},
+  pdfauthor={Valentin Auplat, Nino Laffray},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Homework Metrics 2b: Federal Reserve's interest rates and global
+outstanding credit. A univariate and multivariates analysis}
+\author{Valentin Auplat, Nino Laffray}
+\date{May 2025}
+
+\begin{document}
+\maketitle
+
+\hypertarget{question-1-plots-of-the-variables-of-interest.}{%
+\section{Question 1: Plots of the variables of
+interest.}\label{question-1-plots-of-the-variables-of-interest.}}
+
+\includegraphics{HW-Metrics-2b-Valentin-Auplat-Nino-Laffray_files/figure-latex/unnamed-chunk-5-1.pdf}
+\includegraphics{HW-Metrics-2b-Valentin-Auplat-Nino-Laffray_files/figure-latex/unnamed-chunk-5-2.pdf}
+\includegraphics{HW-Metrics-2b-Valentin-Auplat-Nino-Laffray_files/figure-latex/unnamed-chunk-5-3.pdf}
+Stationarity cannot be assumed from these graphs. We see that variables
+present trends, but not cycles. For this first exercise, we are mostly
+interested in the interest rate of the Federal Reserve and the amount of
+credit borrowed outside the United States denominated in USD.
+
+\hypertarget{question-2-stationarity-tests.}{%
+\section{Question 2: Stationarity
+tests.}\label{question-2-stationarity-tests.}}
+
+\begin{verbatim}
+## 
+## ############################################### 
+## # Augmented Dickey-Fuller Test Unit Root Test # 
+## ############################################### 
+## 
+## Test regression trend 
+## 
+## 
+## Call:
+## lm(formula = z.diff ~ z.lag.1 + 1 + tt + z.diff.lag)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.06709 -0.09487 -0.04901  0.13641  0.78742 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  0.221652   0.100899   2.197 0.031213 *  
+## z.lag.1     -0.087199   0.021263  -4.101 0.000106 ***
+## tt          -0.002419   0.001702  -1.421 0.159586    
+## z.diff.lag1  0.543911   0.107517   5.059 3.04e-06 ***
+## z.diff.lag2  0.228576   0.111798   2.045 0.044508 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.2755 on 73 degrees of freedom
+## Multiple R-squared:  0.5875, Adjusted R-squared:  0.5649 
+## F-statistic: 25.99 on 4 and 73 DF,  p-value: 2.066e-13
+## 
+## 
+## Value of test-statistic is: -4.101 6.1243 8.8495 
+## 
+## Critical values for test statistics: 
+##       1pct  5pct 10pct
+## tau3 -4.04 -3.45 -3.15
+## phi2  6.50  4.88  4.16
+## phi3  8.73  6.49  5.47
+\end{verbatim}
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{llc}
+\caption{\label{tab:unnamed-chunk-6}Augmented Dickey-Fuller Test Results}\\
+\toprule
+ & Statistic & Value\\
+\midrule
+ & Test Statistic & -4.101\\
+1pct & Critical Value (1\%) & -4.040\\
+5pct & Critical Value (5\%) & -3.450\\
+10pct & Critical Value (10\%) & -3.150\\
+\bottomrule
+\end{longtable}
+\endgroup{}
+
+Although the visual plot of the FED rate shows distinct level shifts and
+prolonged flat regimes (e.g., 2008--2016), the ADF test result shows
+that the process is stationary once we control for trend and include
+appropriate lags.
+
+This means the visual ``non-stationarity'' may be deterministic trend or
+policy-driven shifts, but not a stochastic unit root.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 2.1 ADF Test (Augmented Dickey{-}Fuller)}
+\NormalTok{adf\_test }\OtherTok{\textless{}{-}} \FunctionTok{ur.df}\NormalTok{(df\_long[,}\FunctionTok{c}\NormalTok{(}\StringTok{"Borrowers outside United States"}\NormalTok{)], }\AttributeTok{type =} \StringTok{"trend"}\NormalTok{, }\AttributeTok{lags =} \DecValTok{4}\NormalTok{)  }\CommentTok{\# Try "drift" or "none" too}
+\FunctionTok{summary}\NormalTok{(adf\_test)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ############################################### 
+## # Augmented Dickey-Fuller Test Unit Root Test # 
+## ############################################### 
+## 
+## Test regression trend 
+## 
+## 
+## Call:
+## lm(formula = z.diff ~ z.lag.1 + 1 + tt + z.diff.lag)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -351.00  -51.74   -5.20   53.39  280.03 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 195.92769   50.14905   3.907 0.000215 ***
+## z.lag.1      -0.15726    0.04373  -3.596 0.000603 ***
+## tt           22.90499    6.11895   3.743 0.000372 ***
+## z.diff.lag1   0.12606    0.11464   1.100 0.275299    
+## z.diff.lag2   0.15902    0.11537   1.378 0.172561    
+## z.diff.lag3  -0.10185    0.11585  -0.879 0.382350    
+## z.diff.lag4   0.15692    0.11484   1.366 0.176243    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 105.6 on 69 degrees of freedom
+## Multiple R-squared:  0.2617, Adjusted R-squared:  0.1975 
+## F-statistic: 4.076 on 6 and 69 DF,  p-value: 0.001478
+## 
+## 
+## Value of test-statistic is: -3.5959 8.5744 7.9044 
+## 
+## Critical values for test statistics: 
+##       1pct  5pct 10pct
+## tau3 -4.04 -3.45 -3.15
+## phi2  6.50  4.88  4.16
+## phi3  8.73  6.49  5.47
+\end{verbatim}
+
+Idem.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 2.3 KPSS Test (Stationarity)}
+\NormalTok{kpss\_test }\OtherTok{\textless{}{-}} \FunctionTok{ur.kpss}\NormalTok{(df\_long[,}\FunctionTok{c}\NormalTok{(}\StringTok{"FED\_rate"}\NormalTok{)], }\AttributeTok{type =} \StringTok{"tau"}\NormalTok{, }\AttributeTok{lags =} \StringTok{"long"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(kpss\_test)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ####################### 
+## # KPSS Unit Root Test # 
+## ####################### 
+## 
+## Test is of type: tau with 11 lags. 
+## 
+## Value of test-statistic is: 0.0923 
+## 
+## Critical value for a significance level of: 
+##                 10pct  5pct 2.5pct  1pct
+## critical values 0.119 0.146  0.176 0.216
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 2.3 KPSS Test (Stationarity)}
+\NormalTok{kpss\_test }\OtherTok{\textless{}{-}} \FunctionTok{ur.kpss}\NormalTok{(df\_long[,}\FunctionTok{c}\NormalTok{(}\StringTok{"Borrowers outside United States"}\NormalTok{)], }\AttributeTok{type =} \StringTok{"tau"}\NormalTok{, }\AttributeTok{lags =} \StringTok{"long"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(kpss\_test)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ####################### 
+## # KPSS Unit Root Test # 
+## ####################### 
+## 
+## Test is of type: tau with 11 lags. 
+## 
+## Value of test-statistic is: 0.1485 
+## 
+## Critical value for a significance level of: 
+##                 10pct  5pct 2.5pct  1pct
+## critical values 0.119 0.146  0.176 0.216
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(forecast)}
+\FunctionTok{Acf}\NormalTok{(df\_long[,}\FunctionTok{c}\NormalTok{(}\StringTok{"FED\_rate"}\NormalTok{)], }\AttributeTok{lag.max=}\DecValTok{20}\NormalTok{) }\CommentTok{\# the MA part could be q=3, but a lot of non{-}null higher order lags}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW-Metrics-2b-Valentin-Auplat-Nino-Laffray_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{Pacf}\NormalTok{(df\_long[,}\FunctionTok{c}\NormalTok{(}\StringTok{"FED\_rate"}\NormalTok{)], }\AttributeTok{lag.max=}\DecValTok{20}\NormalTok{) }\CommentTok{\# the AR part could be p=3 with the full sample}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW-Metrics-2b-Valentin-Auplat-Nino-Laffray_files/figure-latex/unnamed-chunk-10-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ar3 }\OtherTok{\textless{}{-}} \FunctionTok{Arima}\NormalTok{(df\_long[,}\FunctionTok{c}\NormalTok{(}\StringTok{"FED\_rate"}\NormalTok{)], }\AttributeTok{order=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{0}\NormalTok{), }\AttributeTok{include.constant=}\ConstantTok{TRUE}\NormalTok{) }\CommentTok{\# start with the AR part, assume integration order 0 (stationary)}
+\FunctionTok{summary}\NormalTok{(ar3) }\CommentTok{\# last lag and constant are significant}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: df_long[, c("FED_rate")] 
+## ARIMA(1,2,0) 
+## 
+## Coefficients:
+##           ar1
+##       -0.2103
+## s.e.   0.1102
+## 
+## sigma^2 = 0.1014:  log likelihood = -21.23
+## AIC=46.46   AICc=46.62   BIC=51.2
+## 
+## Training set error measures:
+##                       ME      RMSE       MAE      MPE     MAPE      MASE
+## Training set -0.01488811 0.3125498 0.1832147 9.170396 27.47666 0.2016802
+##                     ACF1
+## Training set -0.01449538
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(ar3}\SpecialCharTok{$}\NormalTok{x, ar3}\SpecialCharTok{$}\NormalTok{fitted), }\AttributeTok{plot.type=}\StringTok{"s"}\NormalTok{, }\AttributeTok{col=}\FunctionTok{c}\NormalTok{(}\StringTok{"black"}\NormalTok{,}\StringTok{"red"}\NormalTok{), }\AttributeTok{lty=}\DecValTok{1}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend=}\FunctionTok{c}\NormalTok{(}\StringTok{"GDP (QoQ growth rate)"}\NormalTok{,}\StringTok{"AR(3)"}\NormalTok{) ,}\AttributeTok{col=}\FunctionTok{c}\NormalTok{(}\StringTok{"black"}\NormalTok{,}\StringTok{"red"}\NormalTok{), }\AttributeTok{lty=}\DecValTok{1}\NormalTok{, }\AttributeTok{bty=}\StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW-Metrics-2b-Valentin-Auplat-Nino-Laffray_files/figure-latex/unnamed-chunk-10-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ma3 }\OtherTok{\textless{}{-}} \FunctionTok{Arima}\NormalTok{(df\_long[,}\FunctionTok{c}\NormalTok{(}\StringTok{"FED\_rate"}\NormalTok{)], }\AttributeTok{order=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{3}\NormalTok{), }\AttributeTok{include.constant=}\ConstantTok{TRUE}\NormalTok{) }\CommentTok{\# continue with the MA part}
+\FunctionTok{summary}\NormalTok{(ma3) }\CommentTok{\# last lag and the constant are significant.}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: df_long[, c("FED_rate")] 
+## ARIMA(0,0,3) with non-zero mean 
+## 
+## Coefficients:
+##          ma1     ma2     ma3    mean
+##       1.7703  1.5287  0.6303  1.8235
+## s.e.  0.0961  0.1198  0.0661  0.2706
+## 
+## sigma^2 = 0.2653:  log likelihood = -61.03
+## AIC=132.07   AICc=132.87   BIC=144.04
+## 
+## Training set error measures:
+##                       ME      RMSE       MAE       MPE     MAPE     MASE
+## Training set -0.01726954 0.5021898 0.3901893 -102.0232 126.3818 0.429515
+##                   ACF1
+## Training set 0.3113716
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(ma3}\SpecialCharTok{$}\NormalTok{x,ma3}\SpecialCharTok{$}\NormalTok{fitted), }\AttributeTok{plot.type=}\StringTok{"s"}\NormalTok{, }\AttributeTok{col=}\FunctionTok{c}\NormalTok{(}\StringTok{"black"}\NormalTok{,}\StringTok{"red"}\NormalTok{), }\AttributeTok{lty=}\DecValTok{1}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend=}\FunctionTok{c}\NormalTok{(}\StringTok{"GDP (QoQ growth rate)"}\NormalTok{,}\StringTok{"MA(3)"}\NormalTok{) ,}\AttributeTok{col=}\FunctionTok{c}\NormalTok{(}\StringTok{"black"}\NormalTok{,}\StringTok{"red"}\NormalTok{), }\AttributeTok{lty=}\DecValTok{1}\NormalTok{, }\AttributeTok{bty=}\StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW-Metrics-2b-Valentin-Auplat-Nino-Laffray_files/figure-latex/unnamed-chunk-10-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Fit AR models}
+\NormalTok{ar1 }\OtherTok{\textless{}{-}} \FunctionTok{Arima}\NormalTok{(df\_long[,}\FunctionTok{c}\NormalTok{(}\StringTok{"FED\_rate"}\NormalTok{)], }\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{), }\AttributeTok{include.constant =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{ar2 }\OtherTok{\textless{}{-}} \FunctionTok{Arima}\NormalTok{(df\_long[,}\FunctionTok{c}\NormalTok{(}\StringTok{"FED\_rate"}\NormalTok{)], }\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{), }\AttributeTok{include.constant =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{ar3 }\OtherTok{\textless{}{-}} \FunctionTok{Arima}\NormalTok{(df\_long[,}\FunctionTok{c}\NormalTok{(}\StringTok{"FED\_rate"}\NormalTok{)], }\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{), }\AttributeTok{include.constant =} \ConstantTok{TRUE}\NormalTok{)}
+
+\CommentTok{\# Create comparison table}
+\NormalTok{model\_comparison }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Model =} \FunctionTok{c}\NormalTok{(}\StringTok{"AR(1)"}\NormalTok{, }\StringTok{"AR(2)"}\NormalTok{, }\StringTok{"AR(3)"}\NormalTok{),}
+  \AttributeTok{AIC =} \FunctionTok{c}\NormalTok{(}\FunctionTok{AIC}\NormalTok{(ar1), }\FunctionTok{AIC}\NormalTok{(ar2), }\FunctionTok{AIC}\NormalTok{(ar3)),}
+  \AttributeTok{BIC =} \FunctionTok{c}\NormalTok{(}\FunctionTok{BIC}\NormalTok{(ar1), }\FunctionTok{BIC}\NormalTok{(ar2), }\FunctionTok{BIC}\NormalTok{(ar3)),}
+  \AttributeTok{LogLikelihood =} \FunctionTok{c}\NormalTok{(}\FunctionTok{logLik}\NormalTok{(ar1), }\FunctionTok{logLik}\NormalTok{(ar2), }\FunctionTok{logLik}\NormalTok{(ar3))}
+\NormalTok{)}
+
+\FunctionTok{print}\NormalTok{(model\_comparison)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Model      AIC      BIC LogLikelihood
+## 1 AR(1) 98.45321 105.6366     -46.22661
+## 2 AR(2) 40.18830  49.7661     -16.09415
+## 3 AR(3) 39.16065  51.1329     -14.58033
+\end{verbatim}
+
+\end{document}
