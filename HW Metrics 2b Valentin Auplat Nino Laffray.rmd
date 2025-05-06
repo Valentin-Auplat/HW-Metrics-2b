@@ -7,6 +7,7 @@ output:
     df_print: paged
   pdf_document: default
 ---
+Notes: après avoir fait les tests de stationarité, on log-diff. Si les tests de stationarité montrent que la série n'est pas stationnaire, on log-diff, puis on refait le test et normalement ça devrait être stationnaire. Et on continue l'exercice avec la log-diff série.
 ```{r echo = FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -135,21 +136,25 @@ mtext("Source: Federal funds effective rate, Economic Data, St. Louis FED", side
 plot(df_long[, "Borrowers outside United States"], main = "Evolution of debt denominated in USD (borrowers outside US)", xlab = "Time", ylab = "Debt denominated in USD (M USD)")
 mtext("Source: Total credit to non-bank borrowers by currency of denomination (USD) - GLI_E2_1, Bank of International Settlements", side = 1, line = 4, adj = 1, cex = 0.57)
 
-plot(df_long[,c("Emerging Asia and Pacific", "Emerging Europe", "Latin America")], plot.type="s", col=c("red","green", "blue"), main = "Evolution of debt denominated in USD (aggregates)", xlab = "Time", ylab = "Debt denominated in USD (M USD)")
-legend("topleft", legend=c("Emerging Asia and Pacific","Emerging Europe", "Latin America") ,col=c("red","green", "blue"), lty=1, bty="n")
+plot(scale(df_long[,c("Borrowers outside United States", "Emerging Asia and Pacific", "Emerging Europe", "Latin America")]), plot.type="s", col=c("black", "red","green", "blue"), main = "Evolution of debt denominated in USD (aggregates)", xlab = "Time", ylab = "Debt denominated in USD (M USD)")
+legend("topleft", legend=c("Borrowers outside United States", "Emerging Asia and Pacific","Emerging Europe", "Latin America") ,col=c("black", "red","green", "blue"), lty=1, bty="n")
 mtext("Source: Total credit to non-bank borrowers by currency of denomination (USD) - GLI_E2_1, Bank of International Settlements", side = 1, line = 4, adj = 1, cex = 0.57)
 ```
 Stationarity cannot be assumed from these graphs. We see that variables present trends, but not cycles. For this first exercise, we are mostly interested in the interest rate of the Federal Reserve and the amount of credit borrowed outside the United States denominated in USD.
-
+ADD A PAPER TO JUSTIFY IT IS STATIONARY EVEN IF IT LOOKS LIKE THIS.
 # Question 2: Stationarity tests.
 ```{r, echo = FALSE}
-library(urca)
+library(vars)         # load package for VAR modelling
+library(urca)         # load package for unit root tests
+library(fUnitRoots)
 library(zoo)
 library(forecast)
 library(kableExtra)
+#On peut avoir une série qui n'est pas stationnaire ! Juste log-diff, et on recommence, puis ce sera normalement stationaire, et on pourra travailler dessus.
 df_long <- ts(df_long, start=c(2000, 1), end=c(2020, 1), frequency=4)
 # 2.1 ADF Test (Augmented Dickey-Fuller)
-adf_test <- ur.df(df_long[,c("FED_rate")], type = "trend", lags = 2)  # Try "drift" or "none" too
+VARselect(na.omit(df_long[,c("FED_rate")]), lag.max=12) #Best lag is 3.
+adf_test <- ur.df(df_long[,c("FED_rate")], type = "trend", lags = 3)  # Try "drift" or "none" too
 summary(adf_test)
 # Extract values
 test_stat <- round(adf_test@teststat[1], 3)
@@ -164,6 +169,15 @@ adf_table <- data.frame(
 # Print with clean headers
 kable(adf_table, caption = "Augmented Dickey-Fuller Test Results", booktabs = TRUE, align = "lc") %>%
   kable_styling(latex_options = c("hold_position"), font_size = 10)
+
+
+# 1.4. Estimate the VAR
+#var1 <- VAR(dataVAR, p=1)                 # run the model (estimates model equation by equation using OLS). We model 3 OLS reg for the 3 variables on the 2 other variables with a lag of 1.
+#summary(var1)                             # roots within unitary circle, significant results except for constant
+#var1_nc <- VAR(dataVAR, p=1, type="none") # run model dropping the constant to see if results change.
+#summary(var1_nc)                          # roots within unitary circle, significant results for last lag.
+#Remember the roots of the polynom to be inside the |1| interval. Here, they are all bellow 1. It is "Roots of characteristic polynomial" in the reg result.
+
 ```
 Although the visual plot of the FED rate shows distinct level shifts and prolonged flat regimes (e.g., 2008–2016), the ADF test result shows that the process is stationary once we control for trend and include appropriate lags.
 
@@ -171,8 +185,9 @@ This means the visual "non-stationarity" may be deterministic trend or policy-dr
 
 
 ```{r}
+VARselect(na.omit(df_long[,c("Borrowers outside United States")]), lag.max=12)
 # 2.1 ADF Test (Augmented Dickey-Fuller)
-adf_test <- ur.df(df_long[,c("Borrowers outside United States")], type = "trend", lags = 4)  # Try "drift" or "none" too
+adf_test <- ur.df(df_long[,c("Borrowers outside United States")], type = "trend", lags = 1)  # Try "drift" or "none" too
 summary(adf_test)
 ```
 Idem.
@@ -180,7 +195,7 @@ Idem.
 
 ```{r}
 # 2.3 KPSS Test (Stationarity)
-kpss_test <- ur.kpss(df_long[,c("FED_rate")], type = "tau", lags = "long")
+kpss_test <- ur.kpss(df_long[,c("FED_rate")], type = "tau", lags = "short")
 summary(kpss_test)
 ```
 
